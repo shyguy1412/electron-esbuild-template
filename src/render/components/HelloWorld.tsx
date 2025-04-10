@@ -1,8 +1,8 @@
 import { h } from "preact";
-import './HelloWorld.css';
+import style from './HelloWorld.module.css';
 
 type Props = {};
 
 export function HelloWorld({ }: Props) {
-    return <div class='center'>Hello World</div>
+    return <div id="content" class={style.center}>Hello World</div>
 }

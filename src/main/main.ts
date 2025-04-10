@@ -50,10 +50,10 @@ function createWindow() {
     });
 
     if (process.env.DEV == 'true') {
-        mainWindow.loadURL('http://localhost:3000');
+        mainWindow.loadURL('http://127.0.0.1:3000');
     }
     else {
-        mainWindow.loadFile(path.join(__dirname, 'index.html'));
+        mainWindow.loadFile(path.join(__dirname, 'main.html'));
     }
 
     // Open the DevTools.
