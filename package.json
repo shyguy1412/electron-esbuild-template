@@ -1,0 +1,44 @@
+{
+  "name": "electron-esbuild-template",
+  "version": "2.0.0",
+  "description": "Template for electron apps with esbuild",
+  "main": "build/main.js",
+  "scripts": {
+    "watch": "node build.mjs --watch --port 3000 --host 127.0.0.1",
+    "dev": "concurrently -k \"npm:watch\" \"wait-on http://127.0.0.1:3000 && DEV=true nodemon -w build/main.js -w build/preload.js --exec electron build/main.js\"  \"npm:cargo-watch\"",
+    "prestart": "npm run build",
+    "start": "electron ./build/main.js",
+    "build": "npm run cargo-build && node build.mjs && electron-builder",
+    "cargo-watch": "nodemon -w ./src/core -i ./src/core/package -e rs --exec npm run cargo-build",
+    "cargo-build": "TS_DECL_GEN=true cargo build --message-format=json-render-diagnostics > cargo.log",
+    "postcargo-build": "neon dist -o src/core/package/core.node --name app_core < cargo.log"
+  },
+  "build": {
+    "files": [
+      "./build/**/*"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shyguy1412/electron-esbuild-template.git"
+  },
+  "author": "Shy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shyguy1412/electron-esbuild-template/issues"
+  },
+  "homepage": "https://github.com/shyguy1412/electron-esbuild-template#readme",
+  "devDependencies": {
+    "@neon-rs/cli": "^0.1.82",
+    "concurrently": "^9.2.1",
+    "electron": "^38.2.2",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.10",
+    "nodemon": "^3.1.10",
+    "normalize.css": "^8.0.1",
+    "preact": "^10.27.2",
+    "typescript": "^5.9.3",
+    "typescript-plugin-css-modules": "^5.2.0",
+    "wait-on": "^9.0.1"
+  }
+}

@@ -1,0 +1,15 @@
+[package]
+name = "app_core"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/core/lib.rs"
+
+[dependencies]
+linkme = "0.3.33"
+neon = "1.1.1"
+
+[dependencies.bondage]
+path = "src/lib/rust/bondage"
