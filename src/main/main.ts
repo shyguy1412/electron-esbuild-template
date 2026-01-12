@@ -1,12 +1,6 @@
 import * as path from 'path';
 import { app, BrowserWindow, Menu, MenuItem } from 'electron';
 
-import '@/lib/electron/main';
-import core from "@core";
-import { bridge } from '@/lib/electron/ModuleBridge';
-
-bridge(core, "core");
-
 //TEMP
 const i18n = {
     t<T>(s: T) { return s; }
