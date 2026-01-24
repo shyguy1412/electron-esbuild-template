@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { app, BrowserWindow, Menu, MenuItem } from 'electron';
+import { app, BrowserWindow, Menu, MenuItem, session } from 'electron';
 
 //TEMP
 const i18n = {
@@ -52,7 +52,7 @@ function createWindow() {
         mainWindow.loadURL('http://127.0.0.1:3000');
     }
     else {
-        mainWindow.loadFile(path.join(__dirname, 'main.html'));
+        mainWindow.loadFile(path.join(__dirname, 'index.html'));
     }
 
     // Open the DevTools.
@@ -65,6 +65,19 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+
+app.whenReady().then(() => {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [
+          `default-src 'self'; script-src 'self'  ${process.env.DEV ? "'unsafe-inline'" : ""}`,
+        ],
+      },
+    });
+  });
+});
 
 app.whenReady().then(async () => {
     Menu.setApplicationMenu(createMenu());
